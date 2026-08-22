@@ -1,0 +1,21 @@
+#mmianji-import-license-panel .mmianji-license-row {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+#mmianji-import-license-panel #mmianji-license-code {
+    flex: 1;
+    min-width: 8rem;
+    letter-spacing: 0.25em;
+}
+
+#mmianji-import-license-panel #mmianji-license-result {
+    display: block;
+    margin-top: 0.65rem;
+    color: var(--SmartThemeQuoteColor);
+}
+
+#mmianji-import-license-panel #mmianji-license-result.mmianji-license-error {
+    color: var(--warning-color, #ff8a80);
+}
