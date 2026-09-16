@@ -14,38 +14,38 @@ function makePanel() {
     panel.className = 'inline-drawer';
     panel.innerHTML = `
         <div class="inline-drawer-toggle inline-drawer-header">
-            <b>?????</b>
+            <b>眠眠机验证</b>
             <div class="inline-drawer-icon fa-solid fa-circle-chevron-down down"></div>
         </div>
         <div class="inline-drawer-content">
             <section class="mmianji-verify-section" aria-labelledby="mmianji-license-title">
-                <h3 id="mmianji-license-title">??????</h3>
-                <p>????????????????????????????</p>
+                <h3 id="mmianji-license-title">导入许可验证</h3>
+                <p>仅提交眠眠机显示的六位验证码，不读取或上传你的酒馆内容。</p>
                 <div class="mmianji-license-row">
-                    <input id="mmianji-license-code" class="text_pole" inputmode="numeric" maxlength="6" aria-label="?????" placeholder="?????">
-                    <button id="mmianji-license-submit" class="menu_button">????</button>
+                    <input id="mmianji-license-code" class="text_pole" inputmode="numeric" maxlength="6" aria-label="六位验证码" placeholder="六位验证码">
+                    <button id="mmianji-license-submit" class="menu_button">确认验证</button>
                 </div>
                 <small id="mmianji-license-result" aria-live="polite"></small>
             </section>
             <section class="mmianji-verify-section" aria-labelledby="mmianji-review-title">
-                <h3 id="mmianji-review-title">??????</h3>
-                <p>??????????????????????????????????</p>
-                <button id="mmianji-review-start" class="menu_button">????</button>
+                <h3 id="mmianji-review-title">社区入群审核</h3>
+                <p>直接在酒馆内完成承诺与答题。不会读取、统计或上传任何聊天及酒馆数据。</p>
+                <button id="mmianji-review-start" class="menu_button">开始审核</button>
                 <div id="mmianji-review-flow" hidden>
                     <small id="mmianji-review-progress"></small>
                     <section id="mmianji-review-pledge" hidden>
-                        <p>??????????</p>
+                        <p>请完整输入以下承诺：</p>
                         <p id="mmianji-review-pledge-text" class="mmianji-review-copy"></p>
-                        <textarea id="mmianji-review-pledge-input" class="text_pole" rows="5" aria-label="????"></textarea>
-                        <button id="mmianji-review-pledge-submit" class="menu_button">????</button>
+                        <textarea id="mmianji-review-pledge-input" class="text_pole" rows="5" aria-label="完整承诺"></textarea>
+                        <button id="mmianji-review-pledge-submit" class="menu_button">提交承诺</button>
                     </section>
                     <section id="mmianji-review-question" hidden>
                         <p id="mmianji-review-question-text" class="mmianji-review-copy"></p>
-                        <div id="mmianji-review-choices" role="group" aria-label="????"></div>
+                        <div id="mmianji-review-choices" role="group" aria-label="答案选项"></div>
                     </section>
                 </div>
                 <small id="mmianji-review-result" aria-live="polite"></small>
-                <button id="mmianji-review-restart" class="menu_button" hidden>????</button>
+                <button id="mmianji-review-restart" class="menu_button" hidden>重新开始</button>
             </section>
         </div>`;
     return panel;
@@ -66,13 +66,13 @@ async function postJson(endpoint, payload) {
         body: JSON.stringify(payload)
     });
     const result = await response.json();
-    if (!result || typeof result !== 'object') throw new Error('????????');
+    if (!result || typeof result !== 'object') throw new Error('验证服务返回异常');
     if (!result.ok) {
-        const error = new Error(result.error && result.error.message || '????');
+        const error = new Error(result.error && result.error.message || '验证失败');
         error.code = result.error && result.error.code || 'UNKNOWN_ERROR';
         throw error;
     }
-    if (!result.data || typeof result.data !== 'object') throw new Error('????????');
+    if (!result.data || typeof result.data !== 'object') throw new Error('验证服务返回异常');
     return result.data;
 }
 
@@ -80,15 +80,15 @@ async function submitCode() {
     const input = element('mmianji-license-code');
     const button = element('mmianji-license-submit');
     const code = String(input && input.value || '').replace(/\D/g, '').slice(0, 6);
-    if (!/^\d{6}$/.test(code)) return showResult('mmianji-license-result', '????????????', true);
+    if (!/^\d{6}$/.test(code)) return showResult('mmianji-license-result', '请输入完整的六位验证码。', true);
     button.disabled = true;
-    showResult('mmianji-license-result', '??????', false);
+    showResult('mmianji-license-result', '正在确认……', false);
     try {
         const data = await postJson(LICENSE_ENDPOINT, { action: 'confirmChallenge', code, client: CLIENT_ID });
         input.value = '';
-        showResult('mmianji-license-result', `??????????????? ${data.account}?`, false);
+        showResult('mmianji-license-result', `验证成功，许可已绑定眠眠机账号 ${data.account}。`, false);
     } catch (error) {
-        showResult('mmianji-license-result', error.message || '?????????', true);
+        showResult('mmianji-license-result', error.message || '无法连接验证服务。', true);
     } finally {
         button.disabled = false;
     }
@@ -132,7 +132,7 @@ function renderReview(data) {
     showResult('mmianji-review-result', '', false);
 
     if (data.stage === 'pledge' && typeof data.pledge === 'string') {
-        element('mmianji-review-progress').textContent = '?? 1/2 ? ????';
+        element('mmianji-review-progress').textContent = '步骤 1/2 · 社区承诺';
         element('mmianji-review-pledge-text').textContent = data.pledge;
         element('mmianji-review-pledge-input').value = '';
         element('mmianji-review-pledge-input').focus();
@@ -140,7 +140,7 @@ function renderReview(data) {
     }
     if (data.stage === 'question' && data.question && Array.isArray(data.question.choices)) {
         const question = data.question;
-        element('mmianji-review-progress').textContent = `?? 2/2 ? ? ${question.number}/${question.total} ?`;
+        element('mmianji-review-progress').textContent = `步骤 2/2 · 第 ${question.number}/${question.total} 题`;
         element('mmianji-review-question-text').textContent = question.prompt || '';
         const choices = element('mmianji-review-choices');
         choices.replaceChildren();
@@ -148,7 +148,7 @@ function renderReview(data) {
             const button = document.createElement('button');
             button.type = 'button';
             button.className = 'menu_button mmianji-review-choice';
-            button.textContent = `${choice.value} ? ${choice.label}`;
+            button.textContent = `${choice.value} · ${choice.label}`;
             button.addEventListener('click', function () { submitReviewAnswer(choice.value); });
             choices.appendChild(button);
         });
@@ -157,22 +157,22 @@ function renderReview(data) {
         return;
     }
     if (data.stage === 'complete' && typeof data.group === 'string') {
-        element('mmianji-review-progress').textContent = '????';
+        element('mmianji-review-progress').textContent = '审核完成';
         element('mmianji-review-pledge').hidden = true;
         element('mmianji-review-question').hidden = true;
         const instructions = Array.isArray(data.instructions) ? data.instructions.filter(Boolean).join('\n') : '';
-        showResult('mmianji-review-result', `?????????${data.group}${instructions ? `\n\n${instructions}` : ''}`, false);
+        showResult('mmianji-review-result', `审核通过，审核群：${data.group}${instructions ? `\n\n${instructions}` : ''}`, false);
         element('mmianji-review-restart').hidden = false;
     }
 }
 
 async function runReviewStep(action, value) {
     setReviewBusy(true);
-    showResult('mmianji-review-result', '??????', false);
+    showResult('mmianji-review-result', '正在验证……', false);
     try {
         renderReview(await requestReview(action, value));
     } catch (error) {
-        resetReview(error.message || '???????????????');
+        resetReview(error.message || '无法连接审核服务，请稍后重试。');
         element('mmianji-review-restart').hidden = false;
         element('mmianji-review-start').hidden = true;
     } finally {
