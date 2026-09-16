@@ -1,10 +1,10 @@
 {
-  "display_name": "眠眠机导入许可",
+  "display_name": "?????",
   "loading_order": 50,
   "js": "index.js",
   "css": "style.css",
-  "author": "眠眠机 Mmianji",
-  "version": "1.0.0",
+  "author": "??? Mmianji",
+  "version": "1.1.0",
   "homePage": "https://github.com/287198/mmianji-import-license-sillytavern",
   "auto_update": true,
   "minimum_client_version": "1.12.0"

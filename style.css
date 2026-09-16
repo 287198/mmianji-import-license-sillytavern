@@ -1,3 +1,17 @@
+#mmianji-import-license-panel .mmianji-verify-section {
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--SmartThemeBorderColor);
+}
+
+#mmianji-import-license-panel .mmianji-verify-section:last-child {
+    border-bottom: 0;
+}
+
+#mmianji-import-license-panel .mmianji-verify-section h3 {
+    margin: 0 0 0.5rem;
+    font-size: 1rem;
+}
+
 #mmianji-import-license-panel .mmianji-license-row {
     display: flex;
     gap: 0.5rem;
@@ -10,12 +24,68 @@
     letter-spacing: 0.25em;
 }
 
-#mmianji-import-license-panel #mmianji-license-result {
+#mmianji-import-license-panel #mmianji-license-result,
+#mmianji-import-license-panel #mmianji-review-result {
     display: block;
     margin-top: 0.65rem;
+    white-space: pre-wrap;
     color: var(--SmartThemeQuoteColor);
 }
 
-#mmianji-import-license-panel #mmianji-license-result.mmianji-license-error {
+#mmianji-import-license-panel .mmianji-license-error {
     color: var(--warning-color, #ff8a80);
+}
+
+#mmianji-import-license-panel #mmianji-review-flow {
+    margin-top: 0.75rem;
+}
+
+#mmianji-import-license-panel #mmianji-review-progress {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--SmartThemeQuoteColor);
+}
+
+#mmianji-import-license-panel .mmianji-review-copy {
+    line-height: 1.65;
+    white-space: pre-wrap;
+}
+
+#mmianji-import-license-panel #mmianji-review-pledge-input {
+    width: 100%;
+    min-height: 8rem;
+    margin: 0.5rem 0;
+    resize: vertical;
+}
+
+#mmianji-import-license-panel #mmianji-review-choices {
+    display: grid;
+    gap: 0.5rem;
+}
+
+#mmianji-import-license-panel .mmianji-review-choice {
+    min-height: 2.75rem;
+    height: auto;
+    padding: 0.625rem 0.75rem;
+    line-height: 1.45;
+    text-align: left;
+    white-space: normal;
+}
+
+#mmianji-import-license-panel #mmianji-review-start,
+#mmianji-import-license-panel #mmianji-review-restart,
+#mmianji-import-license-panel #mmianji-review-pledge-submit {
+    min-height: 2.75rem;
+}
+
+@media (max-width: 480px) {
+    #mmianji-import-license-panel .mmianji-license-row {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    #mmianji-import-license-panel #mmianji-license-code {
+        width: 100%;
+        min-width: 0;
+    }
 }
