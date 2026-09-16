@@ -40,6 +40,13 @@
     margin-top: 0.75rem;
 }
 
+#mmianji-import-license-panel .menu_button {
+    box-sizing: border-box;
+    max-width: 100% !important;
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+}
+
 #mmianji-import-license-panel #mmianji-review-progress {
     display: block;
     margin-bottom: 0.5rem;
@@ -60,22 +67,39 @@
 
 #mmianji-import-license-panel #mmianji-review-choices {
     display: grid;
+    width: 100%;
+    min-width: 0;
     gap: 0.5rem;
 }
 
-#mmianji-import-license-panel .mmianji-review-choice {
+#mmianji-import-license-panel #mmianji-review-choices > .mmianji-review-choice {
+    display: flex;
+    width: 100% !important;
+    min-width: 0;
+    max-width: 100% !important;
     min-height: 2.75rem;
     height: auto;
     padding: 0.625rem 0.75rem;
     line-height: 1.45;
     text-align: left;
-    white-space: normal;
+    white-space: normal !important;
+    overflow-wrap: anywhere;
 }
 
+#mmianji-import-license-panel #mmianji-license-submit,
 #mmianji-import-license-panel #mmianji-review-start,
 #mmianji-import-license-panel #mmianji-review-restart,
 #mmianji-import-license-panel #mmianji-review-pledge-submit {
+    display: inline-flex;
+    width: max-content !important;
+    min-width: 7rem;
+    max-width: 100% !important;
     min-height: 2.75rem;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap !important;
+    word-break: keep-all;
+    overflow-wrap: normal;
 }
 
 @media (max-width: 480px) {
@@ -87,5 +111,12 @@
     #mmianji-import-license-panel #mmianji-license-code {
         width: 100%;
         min-width: 0;
+    }
+
+    #mmianji-import-license-panel #mmianji-license-submit,
+    #mmianji-import-license-panel #mmianji-review-start,
+    #mmianji-import-license-panel #mmianji-review-restart,
+    #mmianji-import-license-panel #mmianji-review-pledge-submit {
+        width: 100% !important;
     }
 }
