@@ -1,4 +1,4 @@
-# 眠眠机验证（SillyTavern / TauriTavern 扩展）
+# 眠眠机验证（SillyTavern 扩展）
 
 这个扩展提供两项互相独立的功能：
 
@@ -9,7 +9,7 @@
 
 ## 安装与使用
 
-1. 在 SillyTavern 或 TauriTavern 的“扩展 → 安装扩展”中粘贴 `https://github.com/287198/mmianji-import-license-sillytavern`。
+1. 在 SillyTavern 的“扩展 → 安装扩展”中粘贴 `https://github.com/287198/mmianji-import-license-sillytavern`。
 2. 打开扩展设置里的“眠眠机验证”。
 3. 导入许可：在眠眠机“设置 → 导入许可验证”取得六位验证码，并在五分钟内提交。
 4. 社区审核：点击“开始审核”，完整输入承诺并依次回答五道题。
